@@ -1,0 +1,53 @@
+// src/components/layout/Topbar.tsx
+"use client"
+
+import * as React from "react"
+import { mockUsers } from "@/src/lib/mockData"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Bell, HelpCircle } from "lucide-react"
+
+export default function Topbar() {
+  const currentUser = mockUsers[0] // Rahul Sharma
+
+  return (
+    <header className="flex items-center justify-between px-6 h-14 bg-white border-b border-gray-200">
+      {/* Breadcrumb / Path */}
+      <div className="flex items-center gap-2 text-xs font-medium text-gray-500">
+        <span>Management</span>
+        <span className="text-gray-300">/</span>
+        <span className="text-gray-900 font-semibold">Roles</span>
+      </div>
+
+      {/* Right side items */}
+      <div className="flex items-center gap-4">
+        {/* Help & Notifications */}
+        <button className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-50">
+          <HelpCircle size={16} />
+        </button>
+        <button className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-md hover:bg-gray-50 relative">
+          <Bell size={16} />
+          <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-indigo-600 rounded-full" />
+        </button>
+
+        <div className="h-6 w-px bg-gray-200" />
+
+        {/* User Profile */}
+        <div className="flex items-center gap-2.5">
+          <Avatar className="h-7 w-7 border border-gray-200">
+            <AvatarFallback className="bg-indigo-50 text-indigo-700 font-bold text-xs">
+              {currentUser.avatar}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="text-xs font-semibold text-gray-900 leading-tight">
+              {currentUser.name}
+            </span>
+            <span className="text-[10px] text-gray-500 leading-tight">
+              {currentUser.email}
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+  )
+}
