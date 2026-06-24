@@ -1,5 +1,7 @@
 # 🏗️ Workbench — Role & Permission Builder
 
+## 🔗 Live Demo — [workbench-topaz.vercel.app](https://workbench-topaz.vercel.app)
+
 > A SaaS admin dashboard that lets team admins create **custom roles**, assign **granular permissions**, and manage **user access** — all through a clean, modern UI with zero code changes.
 
 ---
