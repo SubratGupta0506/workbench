@@ -116,42 +116,38 @@ workbench/
 
 ```mermaid
 graph TB
-    subgraph Browser["🌐 Browser (Client)"]
-        direction TB
-        Home["🏠 Home Page\n/"]
-        RolesPage["🔑 Roles Page\n/roles"]
-        UsersPage["👥 Users Page\n/users"]
-        UserDetail["👤 User Detail\n/users/[id]"]
+    subgraph Browser[Browser - Client]
+        Home[Home Page - /]
+        RolesPage[Roles Page - /roles]
+        UsersPage[Users Page - /users]
+        UserDetail[User Detail - /users/id]
     end
 
-    subgraph NextJS["⚡ Next.js App (Server)"]
-        direction TB
-        subgraph Pages["App Router Pages"]
-            P1["page.tsx (Home)"]
-            P2["roles/page.tsx"]
-            P3["users/page.tsx"]
-            P4["users/[id]/page.tsx"]
-        end
+    subgraph Pages[Next.js App Router Pages]
+        P1[page.tsx - Home]
+        P2[roles/page.tsx]
+        P3[users/page.tsx]
+        P4[users/id/page.tsx]
+    end
 
-        subgraph API["API Route Handlers"]
-            A1["GET /api/roles"]
-            A2["POST /api/roles"]
-            A3["PUT /api/roles/:id"]
-            A4["DELETE /api/roles/:id"]
-            A5["GET /api/users"]
-            A6["GET /api/users/:id"]
-            A7["PUT /api/users/:id"]
-            A8["POST /api/users/:id/roles"]
-            A9["DELETE /api/users/:id/roles"]
-            A10["GET /api/users/:id/permissions"]
-        end
+    subgraph API[API Route Handlers]
+        A1[GET /api/roles]
+        A2[POST /api/roles]
+        A3[PUT /api/roles/:id]
+        A4[DELETE /api/roles/:id]
+        A5[GET /api/users]
+        A6[GET /api/users/:id]
+        A7[PUT /api/users/:id]
+        A8[POST /api/users/:id/roles]
+        A9[DELETE /api/users/:id/roles]
+        A10[GET /api/users/:id/permissions]
+    end
 
-        subgraph Lib["Shared Library"]
-            Store["🗄️ store.ts\n(In-Memory State)"]
-            Types["📋 types.ts\n(TypeScript Interfaces)"]
-            Perms["🔐 permissions.ts\n(Permission Keys)"]
-            Mock["🌱 mockData.ts\n(Seed Data)"]
-        end
+    subgraph Lib[Shared Library - src/lib]
+        Store[store.ts - In-Memory State]
+        Types[types.ts - TypeScript Interfaces]
+        Perms[permissions.ts - Permission Keys]
+        Mock[mockData.ts - Seed Data]
     end
 
     Home --> P1
@@ -302,33 +298,33 @@ All permissions follow the `resource.action` naming pattern:
 
 ```mermaid
 graph TD
-    Layout["RootLayout\nlayout.tsx"]
-    Theme["ThemeContext\n(Dark/Light Mode)"]
-    Topbar["Topbar\nNavigation + Theme Toggle"]
+    Layout[RootLayout - layout.tsx]
+    Theme[ThemeContext - Dark/Light Mode]
+    Topbar[Topbar - Navigation and Theme Toggle]
 
     Layout --> Theme
     Layout --> Topbar
 
-    subgraph RolesPage["Roles Page /roles"]
-        RP["roles/page.tsx\n(Client Component)"]
-        RFD["RoleFormDialog\n(Create / Edit Modal)"]
-        PM["PermissionsMatrix\n(Resource Toggle Grid)"]
+    subgraph RolesPage[Roles Page - /roles]
+        RP[roles/page.tsx]
+        RFD[RoleFormDialog - Create / Edit Modal]
+        PM[PermissionsMatrix - Resource Toggle Grid]
         RP --> RFD
         RFD --> PM
     end
 
-    subgraph UsersPage["Users Page /users"]
-        UP["users/page.tsx\n(Client Component)"]
-        UPD["UserProfileDialog\n(Edit + Role Assignment)"]
-        RB["RoleBadge\n(Role Pill Display)"]
+    subgraph UsersPage[Users Page - /users]
+        UP[users/page.tsx]
+        UPD[UserProfileDialog - Edit and Role Assignment]
+        RB[RoleBadge - Role Pill Display]
         UP --> UPD
         UP --> RB
     end
 
-    subgraph UserDetailPage["User Detail /users/[id]"]
-        UD["users/[id]/page.tsx\n(Client Component)"]
-        EPT["EffectivePermissionsTable\n(Computed Rights Display)"]
-        RB2["RoleBadge\n(Assigned Roles)"]
+    subgraph UserDetailPage[User Detail - /users/id]
+        UD[users/id/page.tsx]
+        EPT[EffectivePermissionsTable - Computed Rights]
+        RB2[RoleBadge - Assigned Roles]
         UD --> EPT
         UD --> RB2
     end
