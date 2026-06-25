@@ -75,9 +75,13 @@ http://localhost:3000
 3. Enter a **Role Name** (e.g. `"Contractor"`)
 4. Enter an optional **Description** (e.g. `"Can view projects but cannot edit or delete"`)
 5. In the **Permissions Matrix**, you will see 5 resource groups:
-   - Projects · Users · Billing · Reports · Settings
-6. Each resource has 4 action toggles: **View · Create · Edit · Delete**
-7. Check individual permissions OR click **"Select All"** on a resource row to grant all 4 actions at once
+   - **Projects** → view, create, edit, delete, archive
+   - **Tasks** → view, create, edit, delete, assign
+   - **Members** → view, invite, remove, update_role
+   - **Billing** → view, update, download_invoices
+   - **Settings** → view, update
+6. Toggle individual permissions per resource
+7. Check individual permissions OR click **"Select All"** on a resource row to grant all actions at once
 8. Click **"Create Role"** — the new role appears instantly in the list
 
 #### Editing a Role

@@ -262,13 +262,13 @@ All permissions follow the `resource.action` naming pattern:
 
 | Resource | Available Actions |
 |---|---|
-| `projects` | `view` · `create` · `edit` · `delete` |
-| `users` | `view` · `create` · `edit` · `delete` |
-| `billing` | `view` · `create` · `edit` · `delete` |
-| `reports` | `view` · `create` · `edit` · `delete` |
-| `settings` | `view` · `create` · `edit` · `delete` |
+| `projects` | `view` · `create` · `edit` · `delete` · `archive` |
+| `tasks` | `view` · `create` · `edit` · `delete` · `assign` |
+| `members` | `view` · `invite` · `remove` · `update_role` |
+| `billing` | `view` · `update` · `download_invoices` |
+| `settings` | `view` · `update` |
 
-> This gives **20 total permission keys**, providing fine-grained control across every resource in the platform.
+> This gives **19 total permission keys** across 5 resources, providing fine-grained control over every area of the platform.
 
 ---
 
