@@ -55,7 +55,7 @@ http://localhost:3000
 
 ### 1. Home Page — `/`
 
-**What you see:** A polished dashboard landing page with an overview of what Workbench does and quick navigation to the two core sections — Roles and Users.
+**What you see:** A polished dashboard landing page with an overview of what Workbench does and quick navigation to the two core sections — Roles and Users. The **preview card** on the right side dynamically fetches and displays your **live roles** from the API — any role you create or delete is reflected here in real time.
 
 **What to do:**
 - Read the product summary to understand the context
@@ -89,9 +89,10 @@ http://localhost:3000
 #### Deleting a Role
 
 1. On any role card, click the **trash (delete) icon**
-2. The role is removed immediately
+2. A **Confirm Deletion** dialog appears — displaying the role name so you can review before proceeding
+3. Click **"Delete Role"** to permanently remove it, or **"Cancel"** to dismiss
 
-> **Note:** The 4 default system roles (Owner, Admin, Member, Viewer) can be edited and deleted just like custom roles.
+> **Note:** Deleting a role automatically unassigns it from every user who had it. The 4 default system roles can be edited and deleted just like custom roles.
 
 ---
 

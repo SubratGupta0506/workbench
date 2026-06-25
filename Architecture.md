@@ -31,10 +31,12 @@ Workbench solves a real problem in SaaS teams: **one-size-fits-all roles don't f
 
 ### Core Capabilities
 - ✅ Create, edit, and delete custom roles
-- ✅ Fine-grained permission control per resource (Projects, Users, Billing, Reports, Settings)
+- ✅ Fine-grained permission control per resource (Projects, Tasks, Members, Billing, Settings)
 - ✅ Assign multiple roles to a single user
 - ✅ Effective permissions computed in real-time via Additive Union
 - ✅ User profile management with role assignment
+- ✅ Home page preview card dynamically reflects live roles from the API
+- ✅ Role deletion uses a premium custom confirmation dialog (Radix primitives)
 
 ---
 
@@ -58,7 +60,7 @@ workbench/
 │
 ├── src/
 │   ├── app/                          # Next.js App Router — Pages & API
-│   │   ├── page.tsx                  # 🏠 Home Page (Dashboard / Landing)
+│   │   ├── page.tsx                  # 🏠 Home Page — dynamically fetches and renders live roles preview
 │   │   ├── layout.tsx                # Root layout with ThemeProvider
 │   │   ├── globals.css               # Global Tailwind base styles
 │   │   │
@@ -308,9 +310,11 @@ graph TD
     subgraph RolesPage[Roles Page - /roles]
         RP[roles/page.tsx]
         RFD[RoleFormDialog - Create / Edit Modal]
+        DCD[DeleteConfirmDialog - Radix Deletion Modal]
         PM[PermissionsMatrix - Resource Toggle Grid]
         RP --> RFD
         RFD --> PM
+        RP --> DCD
     end
 
     subgraph UsersPage[Users Page - /users]
@@ -355,6 +359,12 @@ Enterprise RBAC systems (AWS IAM, GitHub, Google Workspace) universally treat pe
 
 ### 4. Why `resource.action` permission key format?
 This schema is both **human-readable** and **extensible**. Adding a new resource (e.g., `api_keys`) requires zero schema changes — just define the new keys in `permissions.ts`. The permission matrix UI auto-groups them by prefix.
+
+### 5. Why a custom Radix Dialog for role deletion (not `window.confirm`)?
+Native `window.confirm` popups are suppressed by some modern browsers in certain contexts (iframes, headless testing, extensions). A custom Radix `Dialog` gives full styling control, integrates with the design system, and provides a predictable, accessible UX on all platforms.
+
+### 6. Why does the Home page fetch roles from `/api/roles` at runtime?
+The homepage preview card needs to reflect the live state of the role store — including newly created or deleted roles. A static render would only show seed data. Using `useEffect` + `fetch` on the client side ensures the card is always up-to-date with the actual in-memory store.
 
 ---
 

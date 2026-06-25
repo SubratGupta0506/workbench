@@ -3,9 +3,37 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Shield, Users, Key, ArrowRight, User } from "lucide-react"
+import { Shield, Users, Key, ArrowRight, User, Loader2 } from "lucide-react"
+
+interface Role {
+  id: string
+  name: string
+  description: string
+  permissions: string[]
+  createdAt: string
+}
 
 export default function Home() {
+  const [roles, setRoles] = React.useState<Role[]>([])
+  const [loading, setLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    async function fetchRoles() {
+      try {
+        const res = await fetch("/api/roles")
+        if (res.ok) {
+          const data = await res.json()
+          setRoles(data)
+        }
+      } catch (err) {
+        console.error("Failed to fetch roles:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchRoles()
+  }, [])
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col justify-between font-sans selection:bg-indigo-500/30 relative overflow-hidden">
       {/* Ambient background decorative glow blobs */}
@@ -81,36 +109,52 @@ export default function Home() {
               </span>
             </div>
             
-            <div className="space-y-4 pt-4">
-              <div className="bg-background/80 border border-border rounded-xl p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-indigo-500/10 text-indigo-500 flex items-center justify-center font-bold text-xs">
-                    PM
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-foreground">Project Manager</div>
-                    <div className="text-[9px] text-muted-foreground mt-0.5">8 permissions</div>
-                  </div>
+            <div className="space-y-4 pt-4 max-h-[220px] overflow-y-auto pr-1">
+              {loading ? (
+                <div className="flex flex-col items-center justify-center py-8 text-muted-foreground gap-2">
+                  <Loader2 size={24} className="animate-spin text-indigo-500" />
+                  <span className="text-xs">Loading roles...</span>
                 </div>
-                <span className="text-[9px] font-bold text-indigo-500 bg-indigo-500/10 px-2 py-0.5 rounded-full">
-                  Active
-                </span>
-              </div>
+              ) : roles.length === 0 ? (
+                <div className="text-center py-8 text-xs text-muted-foreground">
+                  No roles found
+                </div>
+              ) : (
+                roles.slice(0, 3).map((role, idx) => {
+                  const colors = [
+                    { bg: "bg-indigo-500/10", text: "text-indigo-500" },
+                    { bg: "bg-emerald-500/10", text: "text-emerald-500" },
+                    { bg: "bg-amber-500/10", text: "text-amber-500" },
+                    { bg: "bg-rose-500/10", text: "text-rose-500" }
+                  ]
+                  const color = colors[idx % colors.length]
+                  const initials = role.name
+                    .split(" ")
+                    .map(n => n[0])
+                    .join("")
+                    .toUpperCase()
+                    .slice(0, 2) || role.name.slice(0, 2).toUpperCase()
 
-              <div className="bg-background/85 border border-border rounded-xl p-3 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold text-xs">
-                    AD
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-foreground">Billing Admin</div>
-                    <div className="text-[9px] text-muted-foreground mt-0.5">2 permissions</div>
-                  </div>
-                </div>
-                <span className="text-[9px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                  Active
-                </span>
-              </div>
+                  return (
+                    <div key={role.id} className="bg-background/80 border border-border rounded-xl p-3 flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className={`w-8 h-8 rounded-lg ${color.bg} ${color.text} flex items-center justify-center font-bold text-xs`}>
+                          {initials}
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-foreground">{role.name}</div>
+                          <div className="text-[9px] text-muted-foreground mt-0.5">
+                            {role.permissions.length} {role.permissions.length === 1 ? "permission" : "permissions"}
+                          </div>
+                        </div>
+                      </div>
+                      <span className={`text-[9px] font-bold ${color.text} ${color.bg} px-2 py-0.5 rounded-full`}>
+                        Active
+                      </span>
+                    </div>
+                  )
+                })
+              )}
             </div>
           </div>
         </div>

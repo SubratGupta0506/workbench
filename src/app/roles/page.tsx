@@ -13,6 +13,14 @@ import { Badge } from "@/components/ui/badge"
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from "sonner"
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import {
   Table,
   TableHeader,
   TableBody,
@@ -41,6 +49,10 @@ export default function RolesPage() {
   // Dialog state
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
   const [roleToEdit, setRoleToEdit] = React.useState<Role | null>(null)
+
+  // Delete Dialog state
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
+  const [roleToDelete, setRoleToDelete] = React.useState<{ id: string; name: string } | null>(null)
 
   // Fetch initial data
   const fetchData = async () => {
@@ -82,8 +94,8 @@ export default function RolesPage() {
     if (!term) return roles
     return roles.filter(
       (role) =>
-        role.name.toLowerCase().includes(term) ||
-        role.description.toLowerCase().includes(term)
+          role.name.toLowerCase().includes(term) ||
+          role.description.toLowerCase().includes(term)
     )
   }, [roles, searchTerm])
 
@@ -98,21 +110,28 @@ export default function RolesPage() {
   }
 
   // Delete role handler
-  const handleDeleteClick = async (roleId: string, roleName: string) => {
-    const confirmed = window.confirm(`Are you sure you want to delete the "${roleName}" role?`)
-    if (!confirmed) return
+  const handleDeleteClick = (roleId: string, roleName: string) => {
+    setRoleToDelete({ id: roleId, name: roleName })
+    setIsDeleteDialogOpen(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (!roleToDelete) return
+    const { id, name } = roleToDelete
 
     try {
-      const res = await fetch(`/api/roles/${roleId}`, {
+      const res = await fetch(`/api/roles/${id}`, {
         method: "DELETE",
       })
 
       if (!res.ok) throw new Error("Deletion failed")
 
-      toast.success(`Role "${roleName}" deleted successfully`)
+      toast.success(`Role "${name}" deleted successfully`)
+      setIsDeleteDialogOpen(false)
+      setRoleToDelete(null)
       fetchData() // Refresh server state
     } catch (err) {
-      toast.error(`Failed to delete role: ${roleName}`)
+      toast.error(`Failed to delete role: ${name}`)
     }
   }
 
@@ -362,6 +381,37 @@ export default function RolesPage() {
             roleToEdit={roleToEdit}
             onSave={handleSaveRole}
           />
+
+          {/* Delete Confirmation Dialog */}
+          <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-sm font-bold text-foreground flex items-center gap-2">
+                  <AlertCircle className="text-rose-500" size={18} />
+                  Confirm Deletion
+                </DialogTitle>
+                <DialogDescription className="text-xs text-muted-foreground mt-2">
+                  Are you sure you want to delete the role <span className="font-bold text-foreground">"{roleToDelete?.name}"</span>? This action is permanent and cannot be undone. It will automatically unassign this role from all assigned users.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="mt-4 gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setIsDeleteDialogOpen(false)}
+                  className="text-xs border border-border bg-card text-foreground hover:bg-muted"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={handleConfirmDelete}
+                  className="text-xs bg-rose-600 text-white hover:bg-rose-700 font-semibold"
+                >
+                  Delete Role
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         </main>
         
         {/* Footer Credit */}
