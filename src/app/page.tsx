@@ -3,7 +3,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Shield, Users, Key, ArrowRight, User, Loader2 } from "lucide-react"
+import { Shield, Users, Key, ArrowRight, Loader2 } from "lucide-react"
 
 interface Role {
   id: string
@@ -67,8 +67,8 @@ export default function Home() {
           <div className="space-y-6 max-w-xl">
             {/* Developer Tag */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-300 text-[10px] font-bold uppercase tracking-wider mx-auto md:mx-0 select-none">
-              <User size={12} />
-              Developed by Subrat
+              <Shield size={12} />
+              Role-Based Access Control
             </div>
 
             <h1 className="text-4xl md:text-6xl font-extrabold text-foreground tracking-tight leading-[1.05] max-w-lg">
@@ -206,10 +206,7 @@ export default function Home() {
       <footer className="bg-card border-t border-border py-6 relative z-10">
         <div className="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-muted-foreground">
           <span>&copy; 2026 Workbench. All rights reserved.</span>
-          <div className="flex items-center gap-1.5">
-            <span>Assignment Project by</span>
-            <span className="text-indigo-600 dark:text-indigo-400 font-bold">Subrat</span>
-          </div>
+          <span>Workbench Admin Panel</span>
         </div>
       </footer>
     </div>

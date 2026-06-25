@@ -257,7 +257,7 @@ export default function UsersPage() {
 
         {/* Footer Credit */}
         <footer className="bg-card border-t border-border py-4 text-center text-[10px] text-muted-foreground font-semibold">
-          Designed by Subrat | &copy; Workbench 2026
+          Workbench Admin Panel | &copy; Workbench 2026
         </footer>
       </div>
     </div>

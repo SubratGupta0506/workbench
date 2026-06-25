@@ -77,8 +77,8 @@ export default function Topbar() {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col select-none">
-            <span className="text-xs font-bold text-foreground leading-tight">Subrat</span>
-            <span className="text-[10px] text-muted-foreground leading-tight">Product Designer</span>
+            <span className="text-xs font-bold text-foreground leading-tight">Admin User</span>
+            <span className="text-[10px] text-muted-foreground leading-tight">Administrator</span>
           </div>
         </div>
       </div>

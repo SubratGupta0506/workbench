@@ -48,7 +48,7 @@ export const mockRoles: Role[] = [
     id: "4",
     name: "Billing Viewer",
     description: "Billing access only",
-    permissions: ["billing.view","billing.download_invoices"],
+    permissions: ["billing.view","billing.update","billing.download_invoices"],
     createdAt: "Mar 7, 2024"
   }
 ]
